@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
                        qApp->desktop()->availableGeometry()
                        )
                    );
-
     w.setWindowTitle("Inventory System");
     w.show();
 
