@@ -31,7 +31,7 @@ mainView::mainView(QWidget *parent) :
     ui(new Ui::mainView)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Main View");
+    this->setWindowTitle("Inventory System :: Sports v1.1");
 
 }
 
@@ -104,13 +104,13 @@ void mainView::on_submitDb_clicked()
 {
 
     adminPage conn;
-    QString studentId,name,itemType,teamName;
-    int items;
+    QString studentId,name,itemType,teamName,items;
+
     teamName=ui->teamName->currentText();
     name=ui->stuName->text();
     itemType=ui->itemType->currentText();
     studentId=ui->stuId->text();
-    items=ui->getItemCount->value();
+    items=ui->getItemCount->text();
 
 
     if(studentId.isEmpty()){
@@ -126,9 +126,17 @@ void mainView::on_submitDb_clicked()
 
     conn.connectDatabase();
     QSqlQuery sql;
-    sql.prepare("INSERT INTO Log_Information (DATE,Team Name,Student ID,Student Name,"
-                 "Item Type,Amount) VALUES('"+QDateTime::currentDateTime().toString()+"','"+teamName+"','"+studentId+"','"+name+"','"+itemType+"','"+items+"')");
+    sql.prepare("INSERT INTO Log_Information (`Team Name`,`Student ID`,`Student Name`,"
+                 "`Item Type`,`Amount`) VALUES('"+teamName+"','"+studentId+"','"+name+"','"+itemType+"','"+items+"')");
 
+
+    sql.bindValue(":`Team Name`",teamName);
+    sql.bindValue(":`Student ID`",studentId);
+    sql.bindValue(":`Student Name`",name);
+    sql.bindValue(":`Item Type`",itemType);
+    sql.bindValue(":`Amount`",items);
+
+    sql.exec();
         if(sql.exec()){
         QMessageBox::information(this,"Saved","Log Saved");
         conn.disconnectDatabase();
@@ -136,9 +144,6 @@ void mainView::on_submitDb_clicked()
         cout<<"Database Error"<<endl;
 
     }
-
-
-
-
 }
+
 

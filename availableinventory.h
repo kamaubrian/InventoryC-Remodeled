@@ -1,6 +1,5 @@
 #ifndef AVAILABLEINVENTORY_H
 #define AVAILABLEINVENTORY_H
-
 #include <QDialog>
 
 namespace Ui {

@@ -10,7 +10,9 @@
 #include <vector>
 
 
-using namespace std;
+using namespace std;\
+QString getUsername(QString user);
+QString getPassword(QString pass);
 adminPage::adminPage(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::adminPage)
@@ -27,10 +29,9 @@ void adminPage::on_pushButton_clicked()
 {
     try{
 
-         QSqlQuery query;
+
          QString username;
          QString password;
-         QString sql;
 
          username=ui->username->text();
          password=ui->password->text();
@@ -42,20 +43,13 @@ void adminPage::on_pushButton_clicked()
              QMessageBox::warning(this,"Empty Password","Enter Password");
              return;
          }
-         connectDatabase();
-         sql="SELECT *FROM Credentials WHERE Username='"+username+"'and Password ='"+password+"'";
 
-         int count;
-         query.exec(sql);
-             while(query.next()){
-                count++;
-             }
-             if(count==1){
+             if(username.compare(getUsername(username))==0 && password.compare(getPassword(password))==0){
                  hide();
                  disconnectDatabase();
                  mainview = new mainView(this);
                  mainview->show();
-             }else if(count!=1){
+             }else{
                  QMessageBox::warning(this,"Error","Unknown User");
                  qDebug()<<username<<":::::"<<endl;
                  qDebug()<<password<<"::::::"<<endl;
@@ -69,6 +63,39 @@ void adminPage::on_pushButton_clicked()
     }
 
 }
+QString getUsername(QString user){
+    adminPage conn;
+    QString username="";
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+    sql="SELECT *FROM Credentials WHERE Username='"+user+"'";
+    if(query.exec(sql)){
+        while(query.next()){
+            username=query.value("Username").toString();
+        }
+    }
+    conn.disconnectDatabase();
+    return username;
+}
+QString getPassword(QString pass){
+
+    adminPage conn;
+    QString password="";
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+
+    sql="SELECT *FROM Credentials WHERE Password='"+pass+"'";
+    if(query.exec(sql)){
+        while(query.next()){
+            password=query.value("Password").toString();
+        }
+    }
+    conn.disconnectDatabase();
+    return password;
+}
+
 
 
 

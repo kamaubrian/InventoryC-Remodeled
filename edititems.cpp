@@ -8,12 +8,15 @@
 #include<iostream>
 
 using namespace std;
+bool addItems(QString itemName, QString quantity);
+bool removeItems(QString itemName);
 bool checkItemExist(QString itemName);
 editItems::editItems(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::editItems)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Make Changes to Items");
     this->setFixedSize(QSize(330,230));
 }
 
@@ -29,11 +32,9 @@ void editItems::on_exit_clicked()
 
 void editItems::on_submitEdit_clicked()
 {
-    adminPage conn;
-    QString itemName;
-    int quantity;
+    QString itemName,quantity;
     itemName = ui->editItemName->text();
-    quantity = ui->itemamount->value();
+    quantity = ui->itemamount->text();
     if(itemName.isEmpty()){
         QMessageBox::warning(this,"Error","Enter Item Name");
         return;
@@ -48,23 +49,28 @@ void editItems::on_submitEdit_clicked()
                     QMessageBox::warning(this,"Already Exists","Item Alreasy Exists");
                 }
                 else{
-                    conn.connectDatabase();
-                    QSqlQuery sql;
-                    sql.prepare("INSERT *INTO `Inventory_Info`(ItemName,Amount) values ('"+itemName+"','"+quantity+"')");
-
-                    if(sql.exec()){
-                        conn.disconnectDatabase();
-                        QMessageBox::warning(this,"Correct","Correct");
-                    }else{
-                        QMessageBox::warning(this,"Database Error","Database Error");
+                      addItems(itemName,quantity);
+                      QMessageBox::information(this,"Success","Items Added Successfully");
                     }
-
-                }
 
         }catch(QException ex){
             cout<<ex.what()<<endl;
         }
 
+    }else if(ui->editItemsCombo->currentText()=="REMOVE"){
+        try{
+            if(!checkItemExist(itemName)){
+                QMessageBox::warning(this,"Does not Exist","Item Does Not Exist");
+            }else{
+                ui->itemamount->setEnabled(false);
+                removeItems(itemName);
+                QMessageBox::information(this,"Success","Items Removed Successfully");
+
+            }
+
+        }catch(QException ex){
+            cout<<ex.what()<<endl;
+        }
     }
 }
 vector<QString> getItem(QString itemName){
@@ -73,21 +79,54 @@ vector<QString> getItem(QString itemName){
     vector<QString> itemlist;
     QString sql;
 
-    try{
         QSqlQuery query;
         sql= "SELECT *FROM Inventory_Info WHERE ItemName ='"+itemName+"'";
-        query.exec(sql);
+       if(query.exec(sql)){
         while(query.next()){
             itemlist.push_back("ItemName");
-        }
-
-    }catch(QException ex){
-        cout<<"Error"<<ex.what()<<endl;
-    }
-   // conn.disconnectDatabase();
-    conn.close();
-    return itemlist;
+           }
+       }
+        conn.disconnectDatabase();
+        return itemlist;
 }
 bool checkItemExist(QString itemName){
     return !getItem(itemName).empty();
 }
+bool addItems(QString itemName,QString quantity){
+    adminPage conn;
+    bool success;
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+    sql="INSERT INTO Inventory_Info(ItemName,Amount) VALUES('"+itemName+"','"+quantity+"')";
+    query.prepare(sql);
+    query.bindValue(":ItemName",itemName);
+    query.bindValue(":Amount",quantity);
+    if(query.exec(sql)){
+        success = true;
+    }else{
+        success=false;
+    }
+    conn.disconnectDatabase();
+    return success;
+}
+bool removeItems(QString itemName){
+    adminPage conn;
+    bool success;
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+
+    sql= "DELETE FROM Inventory_Info WHERE ItemName ='"+itemName+"'";
+    query.prepare(sql);
+    if(query.exec(sql)){
+        success= true;
+    }else{
+        success=false;
+    }
+
+    return success;
+
+}
+
+
