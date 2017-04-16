@@ -1,3 +1,11 @@
+/*
+ *PROJECT :: INVENTORY SYSTEM V.1.1
+ * AUTHOR :: BRIAN KAMAU 15-1659
+ * DATABASE USED :: MYSQL
+ *
+ *
+ *
+*/
 #include "adminpage.h"
 #include <QApplication>
 #include <QDesktopWidget>

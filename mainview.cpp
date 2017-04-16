@@ -25,6 +25,7 @@
 
 using namespace std;
 void populateComboBox();
+bool logItem(QString tName, QString stuID, QString stuName, QString itemT, QString itmAnt);
 QDateTime *currenttime=new QDateTime();
 mainView::mainView(QWidget *parent) :
     QDialog(parent),
@@ -103,7 +104,7 @@ void mainView::on_previewTable_clicked()
 void mainView::on_submitDb_clicked()
 {
 
-    adminPage conn;
+
     QString studentId,name,itemType,teamName,items;
 
     teamName=ui->teamName->currentText();
@@ -123,27 +124,46 @@ void mainView::on_submitDb_clicked()
         QMessageBox::warning(this,"Error","Items Borrowed Cannot be Zero");
         return;
     }
+    try{
+        logItem(teamName,studentId,name,itemType,items);
+        clearTextBox();
+        QMessageBox::information(this,"Success","Issue Success");
 
-    conn.connectDatabase();
-    QSqlQuery sql;
-    sql.prepare("INSERT INTO Log_Information (`Team Name`,`Student ID`,`Student Name`,"
-                 "`Item Type`,`Amount`) VALUES('"+teamName+"','"+studentId+"','"+name+"','"+itemType+"','"+items+"')");
-
-
-    sql.bindValue(":`Team Name`",teamName);
-    sql.bindValue(":`Student ID`",studentId);
-    sql.bindValue(":`Student Name`",name);
-    sql.bindValue(":`Item Type`",itemType);
-    sql.bindValue(":`Amount`",items);
-
-    sql.exec();
-        if(sql.exec()){
-        QMessageBox::information(this,"Saved","Log Saved");
-        conn.disconnectDatabase();
-    }else{
-        cout<<"Database Error"<<endl;
-
+    }catch(QException ex){
+        cout<<ex.what()<<endl;
     }
-}
 
+}
+bool logItem(QString tName,QString stuID,QString stuName,QString itemT,QString itmAnt){
+    adminPage conn;\
+    bool success;
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+    sql="INSERT INTO Log_Information(`Team Name`,`Student ID`,`Student Name`,`Item Type`,`Amount`) VALUES('"+tName+"','"+stuID+"','"+stuName+"','"+itemT+"','"+itmAnt+"')";
+    query.prepare(sql);
+    query.bindValue(":`Team Name`",tName);
+    query.bindValue(":`Student ID`",stuID);
+    query.bindValue(":`Student Name`",stuName);
+    query.bindValue(":`Item Type`",itemT);
+    query.bindValue(":`Amount`",itmAnt);
+    query.exec(sql);
+
+    if(query.exec(sql)){
+       // QMessageBox::information(this,"Saved","Save Success");
+        success=true;
+    }else{
+      //  QMessageBox::information(this,"Error","Database Error");
+        success=false;
+    }
+
+    conn.disconnectDatabase();
+    return success;
+}
+void mainView::clearTextBox(){
+
+    ui->stuName->setText("");
+    ui->stuId->setText("");
+
+}
 

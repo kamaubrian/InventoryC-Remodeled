@@ -44,7 +44,4 @@ void availableInventory::on_pushButton_2_clicked()
 {
     hide();
 
-
-
-
 }

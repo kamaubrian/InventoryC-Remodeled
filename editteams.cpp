@@ -7,6 +7,7 @@
 #include <QMessageBox>
 
 using namespace std;
+
 vector<QString>getTeam(QString team);
 bool checkTeamExist(QString teamName);
 bool removeTeam(QString teamName, QString id);
@@ -58,6 +59,7 @@ void editTeams::on_submitEditTeam_clicked()
            try{
                addNewTeam(tName,tManager,id);
                QMessageBox::information(this,"Success","Team Added SuccessFully");
+               clearTextBoxes();
 
            }catch(QException ex){
                cout<<"Error"<<ex.what()<<endl;
@@ -71,6 +73,9 @@ void editTeams::on_submitEditTeam_clicked()
             try{
                 ui->teamManager->setDisabled(true);
                 removeTeam(tName,id);
+                QMessageBox::information(this,"Success","Team Removed Successfully");
+                clearTextBoxes();
+
             }catch(QException ex){
                 cout<<"Database Error"<<ex.what()<<endl;
             }
@@ -153,4 +158,10 @@ bool removeTeam(QString teamName,QString id){
     }
     conn.disconnectDatabase();
     return success;
+}
+void editTeams::clearTextBoxes(){
+    ui->editTeamName->setText("");
+    ui->teamID->setText("");
+    ui->teamManager->setText("");
+
 }

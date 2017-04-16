@@ -26,7 +26,7 @@ private slots:
     void on_editTeams_2_clicked();
 
     void on_previewTable_clicked();
-
+    void clearTextBox();
     void on_submitDb_clicked();
 
 private:

@@ -18,9 +18,9 @@ private slots:
     void on_exit_clicked();
 
     void on_submitEdit_clicked();
-
 private:
     Ui::editItems *ui;
+
 
 };
 

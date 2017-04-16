@@ -19,6 +19,7 @@ private slots:
     void on_exitTeam_clicked();
 
     void on_submitEditTeam_clicked();
+    void clearTextBoxes();
 
 private:
     Ui::editTeams *ui;
