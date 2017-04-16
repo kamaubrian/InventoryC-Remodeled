@@ -84,8 +84,8 @@ vector<QString> getItem(QString itemName){
     }catch(QException ex){
         cout<<"Error"<<ex.what()<<endl;
     }
-    conn.disconnectDatabase();
-
+   // conn.disconnectDatabase();
+    conn.close();
     return itemlist;
 }
 bool checkItemExist(QString itemName){

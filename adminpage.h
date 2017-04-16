@@ -48,6 +48,7 @@ public:
 
         bool success = true;
             db.close();
+
             success = true;
         return success;
     }

@@ -35,6 +35,7 @@ void availableInventory::on_availableInventory_2_clicked()
     model->setQuery(*query);
     ui->tableView->setModel(model);
     conn.disconnectDatabase();
+    conn.close();
 
 }
 
