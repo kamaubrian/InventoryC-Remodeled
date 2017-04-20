@@ -13,11 +13,13 @@
 using namespace std;\
 QString getUsername(QString user);
 QString getPassword(QString pass);
-adminPage::adminPage(QWidget *parent) :
+adminPage::adminPage(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::adminPage)
 {
     ui->setupUi(this);
+    ui->username->setPlaceholderText("Enter Username");
+    ui->password->setPlaceholderText("Enter Password");
 }
 
 adminPage::~adminPage()

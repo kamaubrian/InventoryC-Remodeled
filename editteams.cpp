@@ -20,6 +20,9 @@ editTeams::editTeams(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Make Changes To Teams");
     this->setFixedSize(QSize(330,250));
+    if(ui->editTeam->currentText()=="REMOVE"){
+        ui->teamManager->setDisabled(true);
+    }
 }
 
 editTeams::~editTeams()
@@ -81,9 +84,6 @@ void editTeams::on_submitEditTeam_clicked()
             }
         }
     }
-
-
-
 }
 vector<QString>getTeam(QString team){
     adminPage conn;

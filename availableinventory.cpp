@@ -43,5 +43,7 @@ void availableInventory::on_availableInventory_2_clicked()
 void availableInventory::on_pushButton_2_clicked()
 {
     hide();
+    mainView conn;
+    conn.show();
 
 }

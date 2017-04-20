@@ -22,7 +22,7 @@ public:
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 
-    //This function defines the MYSQL Database Connection on the Localhost.
+    //***This function defines the MYSQL Database Connection on the Localhost.**/
     bool connectDatabase(){
 
 

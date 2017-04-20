@@ -2,10 +2,10 @@
 #define MAINVIEW_H
 
 #include <QDialog>
-#include"edititems.h"
+#include "edititems.h"
 #include "availableinventory.h"
-#include"editteams.h"
-#include"returnitems.h"
+#include "editteams.h"
+#include "returnitems.h"
 
 namespace Ui {
 class mainView;
