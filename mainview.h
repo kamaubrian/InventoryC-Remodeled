@@ -29,6 +29,8 @@ private slots:
     void clearTextBox();
     void on_submitDb_clicked();
 
+    void on_exitSystem_clicked();
+
 private:
     Ui::mainView *ui;
     editItems *edititems;

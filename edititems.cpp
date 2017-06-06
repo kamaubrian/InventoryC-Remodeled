@@ -8,9 +8,11 @@
 #include<iostream>
 
 using namespace std;
+
 bool addItems(QString itemName, QString quantity);
 bool removeItems(QString itemName);
 bool checkItemExist(QString itemName);
+
 editItems::editItems(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::editItems)
@@ -28,6 +30,7 @@ editItems::~editItems()
 void editItems::on_exit_clicked()
 {
     hide();
+
 }
 
 void editItems::on_submitEdit_clicked()
@@ -65,7 +68,6 @@ void editItems::on_submitEdit_clicked()
                 ui->itemamount->setEnabled(false);
                 removeItems(itemName);
                 QMessageBox::information(this,"Success","Items Removed Successfully");
-
             }
 
         }catch(QException ex){

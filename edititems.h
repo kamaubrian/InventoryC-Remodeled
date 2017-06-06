@@ -1,6 +1,7 @@
 #ifndef EDITITEMS_H
 #define EDITITEMS_H
 #include <QDialog>
+//#include "mainview.h"
 
 namespace Ui {
 class editItems;
@@ -20,6 +21,8 @@ private slots:
     void on_submitEdit_clicked();
 private:
     Ui::editItems *ui;
+    //mainView * mainview;
+
 
 
 };

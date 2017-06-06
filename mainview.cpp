@@ -3,14 +3,12 @@
  * We have all through the Program used User defined Header files
  * Header files generally contain functions that can be used all through .cpp files throughout the Program.
  *
- *
 */
-
 
 #include "mainview.h"
 #include "ui_mainview.h"
 #include "ui_edititems.h"
-#include "adminpage.h" //
+#include "adminpage.h"
 #include "ui_availableinventory.h"
 #include "edititems.h"
 #include "availableinventory.h"
@@ -18,8 +16,8 @@
 #include <QMessageBox>
 #include <iostream>
 #include <ctime>
-#include<string>
-#include<cstring>
+#include <string>
+#include <cstring>
 #include <QTime>
 #include <QDateTime>
 
@@ -32,8 +30,9 @@ mainView::mainView(QWidget *parent) :
     ui(new Ui::mainView)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Inventory System :: Sports v1.1");
-
+    this->setFixedSize(QSize(800,600));
+    this->setWindowTitle("Inventory System :: Sports v1.2");
+    this->setWindowIconText("Inventory");
 }
 
 mainView::~mainView()
@@ -135,7 +134,7 @@ void mainView::on_submitDb_clicked()
 
 }
 bool logItem(QString tName,QString stuID,QString stuName,QString itemT,QString itmAnt){
-    adminPage conn;\
+    adminPage conn;
     bool success;
     conn.connectDatabase();
     QSqlQuery query;
@@ -153,7 +152,7 @@ bool logItem(QString tName,QString stuID,QString stuName,QString itemT,QString i
        // QMessageBox::information(this,"Saved","Save Success");
         success=true;
     }else{
-      //  QMessageBox::information(this,"Error","Database Error");
+      //ad  QMessageBox::information(this,"Error","Database Error");
         success=false;
     }
 
@@ -167,3 +166,8 @@ void mainView::clearTextBox(){
 
 }
 
+
+void mainView::on_exitSystem_clicked()
+{
+
+}

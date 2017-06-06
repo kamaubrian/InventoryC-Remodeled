@@ -75,6 +75,7 @@ vector<int>getBorrowedItems(QString studentName){
 
     adminPage conn;
     vector<int> list;
+    int li;
     conn.connectDatabase();
     QSqlQuery *query;
     QString sql;
@@ -82,8 +83,9 @@ vector<int>getBorrowedItems(QString studentName){
         sql="SELECT * FROM Log_Information WHERE `Student Name` ='"+studentName+"'";
         query->prepare(sql);
         if(query->exec()){
-            while(query->next()){
-                list.push_back("Amount");
+            if(query->next()){
+                
+                
             }
         }
     }catch(QException ex){

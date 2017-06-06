@@ -1,7 +1,6 @@
 #include "adminpage.h"
 #include "ui_adminpage.h"
 #include "mainview.h"
-
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QException>
@@ -9,8 +8,7 @@
 #include <QDebug>
 #include <vector>
 
-
-using namespace std;\
+using namespace std;
 QString getUsername(QString user);
 QString getPassword(QString pass);
 adminPage::adminPage(QWidget *parent):
@@ -20,6 +18,17 @@ adminPage::adminPage(QWidget *parent):
     ui->setupUi(this);
     ui->username->setPlaceholderText("Enter Username");
     ui->password->setPlaceholderText("Enter Password");
+
+  /*  QString sql;
+    connectDatabase();
+    QSqlQuery query;
+    sql="CREATE TABLE IF NOT EXISTS Credentials (Name VARCHAR(44)"
+            " NOT NULL,Identification INTEGER NOT"
+            "NULL,Username VARCHAR(44) NOT NULL,Password VARCHAR(44)"
+            " NOT NULL,PRIMARY KEY(Name))";
+        query.prepare(sql);
+        query.execBatch();
+        sql ="CREATE TABLE IF NOT EXISTS ";*/
 }
 
 adminPage::~adminPage()
@@ -30,8 +39,6 @@ adminPage::~adminPage()
 void adminPage::on_pushButton_clicked()
 {
     try{
-
-
          QString username;
          QString password;
 
@@ -51,13 +58,14 @@ void adminPage::on_pushButton_clicked()
                  disconnectDatabase();
                  mainview = new mainView(this);
                  mainview->show();
+               //  qDebug()<<username<<"::::::::"<<getUsername(username)<<endl;
+               //  qDebug()<<password<<"::::::::"<<getPassword(password)<<endl;
              }else{
                  QMessageBox::warning(this,"Error","Unknown User");
                  qDebug()<<username<<":::::"<<endl;
                  qDebug()<<password<<"::::::"<<endl;
                  ui->username->setText("");
                  ui->password->setText("");
-
               }
 
     }catch(QException ex){
@@ -96,6 +104,26 @@ QString getPassword(QString pass){
     }
     conn.disconnectDatabase();
     return password;
+}
+bool addUser(QString name,int id,QString username,QString password){
+    adminPage conn;
+    conn.connectDatabase();
+    bool success = true;
+    QString sql;
+    QSqlQuery query;
+
+    sql="INSERT INTO Credentials(`Name`,`Identification`,`Username`,`Password`) VALUES('"+name+"','"+id+"','"+username+"','"+password+"')";
+    query.prepare(sql);
+    query.bindValue(":Name",name);
+    query.bindValue(":Identification",id);
+    query.bindValue(":Username",username);
+    query.bindValue(":Password",password);
+    if(query.exec(sql)){
+        success = true;
+    }
+
+    conn.disconnectDatabase();
+    return success;
 }
 
 

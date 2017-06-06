@@ -115,7 +115,6 @@ bool addNewTeam(QString teamName,QString teamManager,QString id){
     conn.connectDatabase();
     QSqlQuery query;
     QString sql;
-
     try{
         sql="INSERT INTO Team_Information(TeamName,TeamManager,Identification) VALUES('"+teamName+"','"+teamManager+"','"+id+"')";
         query.prepare(sql);
@@ -141,7 +140,6 @@ bool removeTeam(QString teamName,QString id){
     bool success;
     QSqlQuery query;
     QString sql;
-
     try{
         sql="DELETE FROM Team_Information WHERE TeamName='"+teamName+"' and Identification ='"+id+"'";
         query.prepare(sql);
@@ -152,7 +150,6 @@ bool removeTeam(QString teamName,QString id){
             success= false;
             cout<<success<<endl;
         }
-
     }catch(QException ex){
         cout<<"Database Error"<<ex.what()<<endl;
     }
@@ -163,5 +160,4 @@ void editTeams::clearTextBoxes(){
     ui->editTeamName->setText("");
     ui->teamID->setText("");
     ui->teamManager->setText("");
-
 }
