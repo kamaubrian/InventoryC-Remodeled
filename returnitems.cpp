@@ -1,0 +1,96 @@
+
+#include "returnitems.h"
+#include "ui_returnitems.h"
+#include "adminpage.h"
+#include<QSize>
+#include <vector>
+using namespace std;
+bool returnItem(QString stuName);
+returnItems::returnItems(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::returnItems)
+{
+    ui->setupUi(this);
+
+    this->setFixedSize(QSize(330,250));
+}
+
+returnItems::~returnItems()
+{
+    delete ui;
+}
+
+void returnItems::on_refresh_clicked()
+{
+    adminPage conn;
+    conn.connectDatabase();
+    QSqlQueryModel * model = new QSqlQueryModel();
+    QSqlQuery *query = new QSqlQuery(conn.db);
+
+    query->prepare("SELECT `Student Name` FROM Log_Information");
+    query->exec();
+    model->setQuery(*query);
+    ui->comboBox->setModel(model);
+    conn.disconnectDatabase();
+
+}
+
+void returnItems::on_returnSubmit_2_clicked()
+{
+    hide();
+}
+
+void returnItems::on_returnSubmit_clicked()
+{
+    QString stuName;
+    stuName=ui->comboBox->currentText();
+    returnItem(stuName);
+
+}
+bool returnItem(QString stuName ){
+    bool success;
+    adminPage conn;
+    conn.connectDatabase();
+    QSqlQuery query;
+    QString sql;
+    sql="DELETE FROM Log_Information WHERE `Student Name` ='"+stuName+"'";
+    query.prepare(sql);
+    if(query.exec(sql)){
+        success=true;
+    }else{
+        success = false;
+    }
+    conn.disconnectDatabase();
+    return success;
+
+}
+bool returnItems(QString studentName, int Quantity){
+    bool success = true;
+
+
+
+    return success;
+}
+vector<int>getBorrowedItems(QString studentName){
+
+    adminPage conn;
+    vector<int> list;
+    conn.connectDatabase();
+    QSqlQuery *query;
+    QString sql;
+    try{
+        sql="SELECT * FROM Log_Information WHERE `Student Name` ='"+studentName+"'";
+        query->prepare(sql);
+        if(query->exec()){
+            while(query->next()){
+                list.push_back("Amount");
+            }
+        }
+    }catch(QException ex){
+        cout<<"Database Error"<<endl;
+
+    }
+
+    return list;
+}
+

@@ -14,10 +14,22 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         adminpage.cpp \
-    mainview.cpp
+    mainview.cpp \
+    edititems.cpp \
+    availableinventory.cpp \
+    editteams.cpp \
+    returnitems.cpp
 
 HEADERS  += adminpage.h \
-    mainview.h
+    mainview.h \
+    edititems.h \
+    availableinventory.h \
+    editteams.h \
+    returnitems.h
 
 FORMS    += adminpage.ui \
-    mainview.ui
+    mainview.ui \
+    edititems.ui \
+    availableinventory.ui \
+    editteams.ui \
+    returnitems.ui
